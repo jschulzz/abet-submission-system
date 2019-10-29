@@ -57,4 +57,52 @@ describe('Lib - Users', () =>{
             expect(actual_output).to.deep.equal(expected_output)
         })
     })
+
+    describe('get', () => {
+        // this is ran after each unit test
+		afterEach(() => {
+			// this is needed to restore the CoursePortfolio model back to it's original state
+			// we don't want to break all future unit tests
+			sandbox.restore()
+        })
+        it('does not exist', async () => {
+            // Arrange
+            const User = require('../../../main/models/User')
+            const input = 'user'
+            sandbox.stub(User, "query").returns({
+                where: sandbox.stub().returns([])
+            })
+            
+            // Act & Assert
+            await expect(users.get(input)).to.be.rejectedWith(Error, 'User does not exists')
+        })
+
+        it('empty username', async () => {
+            //Arange
+            const input = ""
+
+            // Act & Assert
+            await expect(users.get(input)).to.be.rejectedWith(Error, 'User must have username')
+        })
+
+        it('get user', async () => {
+            // Arrange
+            const expected_output = [{ "id": 1,
+                                    "linkblue_username": "user" }]
+            const User = require('../../../main/models/User')
+            const input = 'user'
+            sandbox.stub(User, "query").returns({
+                where: sandbox.stub().returns([
+                    { "id": 1,
+                    "linkblue_username": "user" 
+                }])
+            })
+
+            // Act
+            const actual_output = await users.get(input)
+
+            // Assert
+            expect(actual_output).to.deep.equal(expected_output)
+        })
+    })
 })
