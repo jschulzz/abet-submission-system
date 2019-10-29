@@ -223,6 +223,58 @@ describe('Lib - CoursePortfolio', () => {
 			})
 		})
 
-	})
+    })
+    
+    describe('new', () => {
+        // this is ran after each unit test
+		afterEach(() => {
+			// this is needed to restore the CoursePortfolio model back to it's original state
+			// we don't want to break all future unit tests
+			sandbox.restore()
+        })
+        
+        it('should error on non-existent course', async () => {
+
+            const Course = require('../../../main/models/Course')
+
+            const fake_course = {
+                department_id : 40, // this isn't a real dept
+                course_number: 5000, // this isn't a real course number
+                instructor: 1, // these other values shouldn't matter
+                semester: 1,
+                year: "2019",
+                num_students: 30,
+                student_learning_outcomes: ["1"],
+                section: 1
+            }
+
+            // This is our search query for courses
+            sandbox.stub(Course, "query").returns({
+				where: sandbox.stub().returns({
+					where: sinon.stub().returns([])
+				})
+			})
+
+            await expect(course_portfolio.new(fake_course)).to.eventually.be.rejected;
+        })
+
+        it('should insert for existing courses', async () => {
+
+            const Course = require('../../../main/models/Course')
+
+            const fake_course = {
+                department_id : 1, // this is a real dept
+                course_number: 498, // this is a real course number
+                instructor: 1,
+                semester: 1,
+                year: "2019",
+                num_students: 30,
+                student_learning_outcomes: ["1"],
+                section: 4
+            }
+
+            await expect(course_portfolio.new(fake_course)).to.eventually.not.be.rejected;
+        })
+    })
 
 })

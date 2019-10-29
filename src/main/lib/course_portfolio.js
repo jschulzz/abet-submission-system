@@ -14,7 +14,7 @@ module.exports.new = async ({
 }) => {
 
     //Make sure this portfolio matches to a real course
-    const matching_courses = await Course.query().where('number', course_number).where('department_id', department_id) ;
+    const matching_courses = await Course.query().where('number', course_number).where('department_id', department_id);
 
     if (matching_courses.length === 0) {
         throw new Error(`No existing course for Dept ${department_id}, Course No. ${course_number}`);
@@ -27,7 +27,7 @@ module.exports.new = async ({
             semester_term_id: parseInt(semester),
             year: parseInt(year)
         };
-        return await Portfolio.query().debug('enabled').insert(portfolio);
+        return await Portfolio.query().insert(portfolio);
     }
 }
 
