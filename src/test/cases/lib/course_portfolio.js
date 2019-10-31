@@ -255,14 +255,14 @@ describe('Lib - CoursePortfolio', () => {
 				})
 			})
 
-            await expect(course_portfolio.new(fake_course)).to.eventually.be.rejected;
+            await expect(course_portfolio.new(fake_course)).to.be.rejectedWith("No existing course for Dept 40, Course No. 5000");
         })
 
         it('should insert for existing courses', async () => {
 
-            const Course = require('../../../main/models/Course')
+            const Portfolio = require('../../../main/models/CoursePortfolio')
 
-            const fake_course = {
+            const real_course = {
                 department_id : 1, // this is a real dept
                 course_number: 498, // this is a real course number
                 instructor: 1,
@@ -270,10 +270,18 @@ describe('Lib - CoursePortfolio', () => {
                 year: "2019",
                 num_students: 30,
                 student_learning_outcomes: ["1"],
-                section: 4
+                section: 100
             }
+            sandbox.stub(Portfolio, "query").returns({
+				where: sandbox.stub().returns({
+					where: sinon.stub().returns([])
+                }),
+                insert: sandbox.stub().returns([real_course])
+			})
 
-            await expect(course_portfolio.new(fake_course)).to.eventually.not.be.rejected;
+            const actual_output = await course_portfolio.new(real_course);
+
+            await expect(actual_output).to.deep.equal([real_course]);
         })
     })
 
