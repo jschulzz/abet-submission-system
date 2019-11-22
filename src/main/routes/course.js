@@ -122,9 +122,10 @@ router.route('/')
 			})
 		}
 		catch(error){
+			const error_message = 'Error: ' + error.message
 			res.render('base_template', {
 				title: 'Course Portfolios',
-				body: mustache.render('course/index', {added: error})
+				body: mustache.render('course/index', {added: error_message})
 			})
 		}
 	}))
