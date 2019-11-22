@@ -83,6 +83,25 @@ const course_manage_page = async (res, course_id) => {
     })
 }
 
+const getPortfolios = async () => {
+
+    //join all relevant data
+    const portfolios = await Course.query().select('*')
+        .join('department', 'department.id', 'course.department_id')
+        .join('portfolio', 'portfolio.course_id', 'course.id')
+        .join("portfolio_slo", "portfolio.id", "portfolio_slo.portfolio_id")
+        .join("artifact", "portfolio_slo.id", "artifact.portfolio_slo_id")
+        .join('term', "portfolio.semester_term_id", "term.id")
+
+    // clean that data for easier display 
+    portfolios.forEach((portfolio) => {
+        portfolio.course_name = String(portfolio.identifier).toUpperCase() + String(portfolio.number) + " - Section " + portfolio.section;
+        portfolio.term_name = String(portfolio.value).toUpperCase();
+    })
+    return portfolios
+}
+
+
 const course_new_page = async (res, department = false) => {
     const departments = await Department.query().select()
     const semesters = await (await TermType.query()
@@ -109,10 +128,7 @@ const course_new_page = async (res, department = false) => {
 /* GET course home page */
 router.route('/')
     .get(html.auth_wrapper(async (req, res, next) => {
-        const portfolios = await Course.query().select('*')
-            .join('department', 'department.id', 'course.department_id')
-            .join('portfolio', 'portfolio.course_id', 'course.id')
-        // const departments = await Department.query().select()
+        const portfolios = getPortfolios()
 
         res.render('base_template', {
             title: 'Course Portfolios',
@@ -158,3 +174,4 @@ router.route('/:id')
     }))
 
 module.exports = router;
+module.exports.getPortfolios = getPortfolios;
