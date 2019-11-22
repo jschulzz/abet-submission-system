@@ -74,3 +74,34 @@ module.exports.get = async (portfolio_id) => {
 
     return portfolio
 }
+
+module.exports.getRandomStudents = async (students) => {
+    var num_students = 0
+    if(students.length === 0){
+        throw new Error('The must be students.')
+    }
+    if(students.length <= 10){
+        return students
+    }
+    else if(Math.floor(0.2 * students.length) < 10){
+        num_students = 10
+    }
+    else{
+        num_students = Math.floor(0.2 * students.length)
+    }
+    var random_students = []
+    var indices = []
+    var valid_index
+    for(var i = 0; i < num_students; i++){
+        valid_index = false
+        while(!valid_index){
+            var index = Math.floor(Math.random() * students.length)
+            if(indices.indexOf(index) === -1){
+                indices[i] = (index)
+                random_students[i] = (students[index])
+                valid_index = true
+            }
+        }
+    }
+    return random_students
+}
