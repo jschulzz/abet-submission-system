@@ -83,6 +83,31 @@ const course_manage_page = async (res, course_id) => {
     })
 }
 
+
+const sortPortfolios = (portfolios) => {
+    // very statically sorts the portfolios
+    const date = new Date();
+    const current_year = date.getFullYear();
+    const current_month = date.getMonth();
+
+    // very rudimentary semester divisions, only by month
+    let semester;
+    if (current_month < 5) {
+        semester = "SPRING";
+    } else if (current_month < 6) {
+        semester = "SUMMER 1"
+    } else if (current_month < 7) {
+        semester = "SUMMER 1"
+    } else if (current_month < 6) {
+        semester = "SUMMER 2"
+    } else if (current_month <= 11) {
+        semester = "FALL"
+    }
+    const current_portfolios = portfolios.filter(p => p.year == current_year && p.term_name === semester);
+    const old_portfolios = portfolios.filter(p => p.year != 2019 || p.term_name !== semester);
+    return { current_portfolios: current_portfolios, old_portfolios: old_portfolios };
+}
+//this function retrives all the relevent entries and sorts them
 const getPortfolios = async () => {
 
     //join all relevant data
@@ -98,7 +123,8 @@ const getPortfolios = async () => {
         portfolio.course_name = String(portfolio.identifier).toUpperCase() + String(portfolio.number) + " - Section " + portfolio.section;
         portfolio.term_name = String(portfolio.value).toUpperCase();
     })
-    return portfolios
+
+    return portfolios;
 }
 
 
@@ -128,13 +154,14 @@ const course_new_page = async (res, department = false) => {
 /* GET course home page */
 router.route('/')
     .get(html.auth_wrapper(async (req, res, next) => {
-        const portfolios = getPortfolios()
+        const portfolios = await getPortfolios();
+        const { current_portfolios, old_portfolios } = sortPortfolios(portfolios);
 
         res.render('base_template', {
             title: 'Course Portfolios',
             body: mustache.render('course/index', {
-                portfolios
-                // Need to clean this data for templating
+                current_portfolios,
+                old_portfolios
             })
         })
     }))
@@ -175,3 +202,4 @@ router.route('/:id')
 
 module.exports = router;
 module.exports.getPortfolios = getPortfolios;
+module.exports.sortPortfolios = sortPortfolios;
