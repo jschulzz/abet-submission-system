@@ -103,8 +103,6 @@ const sortPortfolios = (portfolios) => {
     } else if (current_month < 6) {
         semester = "SUMMER 1"
     } else if (current_month < 7) {
-        semester = "SUMMER 1"
-    } else if (current_month < 6) {
         semester = "SUMMER 2"
     } else {
         semester = "FALL"
