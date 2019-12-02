@@ -84,6 +84,12 @@ const course_manage_page = async (res, course_id) => {
 }
 
 
+const setReadOnly = async (portfolio_id, readonly) => {
+    await Portfolio.query()
+        .where({ "id": portfolio_id })
+        .patch({ "readonly": readonly })
+}
+
 const sortPortfolios = (portfolios) => {
     // very statically sorts the portfolios
     const date = new Date();
@@ -100,7 +106,7 @@ const sortPortfolios = (portfolios) => {
         semester = "SUMMER 1"
     } else if (current_month < 6) {
         semester = "SUMMER 2"
-    } else if (current_month <= 11) {
+    } else {
         semester = "FALL"
     }
     const current_portfolios = portfolios.filter(p => p.year == current_year && p.term_name === semester);
@@ -203,3 +209,5 @@ router.route('/:id')
 module.exports = router;
 module.exports.getPortfolios = getPortfolios;
 module.exports.sortPortfolios = sortPortfolios;
+module.exports.setReadOnly = setReadOnly;
+

@@ -7,238 +7,239 @@ const sandbox = sinon.createSandbox();
 
 describe('Lib - CoursePortfolio', () => {
 
-	describe('get', () => {
+    describe('get', () => {
 
-		// this is ran after each unit test
-		afterEach(() => {
-			// this is needed to restore the CoursePortfolio model back to it's original state
-			// we don't want to break all future unit tests
-			sandbox.restore()
-		})
+        // this is ran after each unit test
+        afterEach(() => {
+            // this is needed to restore the CoursePortfolio model back to it's original state
+            // we don't want to break all future unit tests
+            sandbox.restore()
+        })
 
-		it('with id', async () => {
-			// Arrange
-			const CoursePortfolio = require('../../../main/models/CoursePortfolio')
+        it('with id', async () => {
+            // Arrange
+            const CoursePortfolio = require('../../../main/models/CoursePortfolio')
 
-			// stub the CoursePortfolio.query() method
-			sandbox.stub(CoursePortfolio, "query").returns({
-				// stub the CoursePortfolio.query().eager() method
-				eager: sandbox.stub().returns({
-					// stub the CoursePortfolio.query().eager().findById() method
-					findById: sinon.stub().returns({
-						"id": 1,
-						"course_id": 1,
-						"instructor_id": 1,
-						"semester_term_id": 1,
-						"num_students": 5,
-						"section": 1,
-						"year": 2019,
-						"course": {
-							"id": 1,
-							"department_id": 1,
-							"number": 498,
-							"department": {
-								"id": 1,
-								"identifier": "cs",
-								"name": "Computer Science"
-							}
-						},
-						"instructor": {
-							"id": 1,
-							"linkblue_username": "user"
-						},
-						"semester": {
-							"id": 1,
-							"type": 1,
-							"value": "fall"
-						},
-						"outcomes": [
-							{
-								"id": 1,
-								"portfolio_id": 1,
-								"slo_id": 1,
-								"slo": {
-									"id": 1,
-									"department_id": 1,
-									"index": 2,
-									"description": "Design, implement, and evaluate a computing-based solution to meet a given set of computing requirements in the context of the program's discipline.",
-									"metrics": [
-										{
-											"id": 1,
-											"slo_id": 1,
-											"index": 1,
-											"name": "Identify and interpret client needs and design constraints",
-											"exceeds": "n/a",
-											"meets": "n/a",
-											"partially": "n/a",
-											"not": "n/a"
-										}
-									]
-								},
-								"artifacts": [
-									{
-										"id": 1,
-										"portfolio_slo_id": 1,
-										"index": 1,
-										"name": "_unset_",
-										"evaluations": [
-											{
-												"id": 1,
-												"artifact_id": 1,
-												"evaluation_index": 1,
-												"student_index": 1,
-												"evaluation": [],
-												"file": null
-											}
-										]
-									},
-									{
-										"id": 2,
-										"portfolio_slo_id": 1,
-										"index": 2,
-										"name": "_unset_",
-										"evaluations": [
-											{
-												"id": 6,
-												"artifact_id": 2,
-												"evaluation_index": 1,
-												"student_index": 1,
-												"evaluation": [],
-												"file": null
-											}
-										]
-									},
-									{
-										"id": 3,
-										"portfolio_slo_id": 1,
-										"index": 3,
-										"name": "_unset_",
-										"evaluations": [
-											{
-												"id": 11,
-												"artifact_id": 3,
-												"evaluation_index": 1,
-												"student_index": 1,
-												"evaluation": [],
-												"file": null
-											}
-										]
-									}
-								]
-							}
-						]
-					})
-				})
-			})
+            // stub the CoursePortfolio.query() method
+            sandbox.stub(CoursePortfolio, "query").returns({
+                // stub the CoursePortfolio.query().eager() method
+                eager: sandbox.stub().returns({
+                    // stub the CoursePortfolio.query().eager().findById() method
+                    findById: sinon.stub().returns({
+                        "id": 1,
+                        "course_id": 1,
+                        "instructor_id": 1,
+                        "semester_term_id": 1,
+                        "num_students": 5,
+                        "readonly": false,
+                        "section": 1,
+                        "year": 2019,
+                        "course": {
+                            "id": 1,
+                            "department_id": 1,
+                            "number": 498,
+                            "department": {
+                                "id": 1,
+                                "identifier": "cs",
+                                "name": "Computer Science"
+                            }
+                        },
+                        "instructor": {
+                            "id": 1,
+                            "linkblue_username": "user"
+                        },
+                        "semester": {
+                            "id": 1,
+                            "type": 1,
+                            "value": "fall"
+                        },
+                        "outcomes": [
+                            {
+                                "id": 1,
+                                "portfolio_id": 1,
+                                "slo_id": 1,
+                                "slo": {
+                                    "id": 1,
+                                    "department_id": 1,
+                                    "index": 2,
+                                    "description": "Design, implement, and evaluate a computing-based solution to meet a given set of computing requirements in the context of the program's discipline.",
+                                    "metrics": [
+                                        {
+                                            "id": 1,
+                                            "slo_id": 1,
+                                            "index": 1,
+                                            "name": "Identify and interpret client needs and design constraints",
+                                            "exceeds": "n/a",
+                                            "meets": "n/a",
+                                            "partially": "n/a",
+                                            "not": "n/a"
+                                        }
+                                    ]
+                                },
+                                "artifacts": [
+                                    {
+                                        "id": 1,
+                                        "portfolio_slo_id": 1,
+                                        "index": 1,
+                                        "name": "_unset_",
+                                        "evaluations": [
+                                            {
+                                                "id": 1,
+                                                "artifact_id": 1,
+                                                "evaluation_index": 1,
+                                                "student_index": 1,
+                                                "evaluation": [],
+                                                "file": null
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": 2,
+                                        "portfolio_slo_id": 1,
+                                        "index": 2,
+                                        "name": "_unset_",
+                                        "evaluations": [
+                                            {
+                                                "id": 6,
+                                                "artifact_id": 2,
+                                                "evaluation_index": 1,
+                                                "student_index": 1,
+                                                "evaluation": [],
+                                                "file": null
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": 3,
+                                        "portfolio_slo_id": 1,
+                                        "index": 3,
+                                        "name": "_unset_",
+                                        "evaluations": [
+                                            {
+                                                "id": 11,
+                                                "artifact_id": 3,
+                                                "evaluation_index": 1,
+                                                "student_index": 1,
+                                                "evaluation": [],
+                                                "file": null
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                })
+            })
 
-			// Act
-			const portfolio = await course_portfolio.get(1)
+            // Act
+            const portfolio = await course_portfolio.get(1)
 
-			// Assert
-			expect(portfolio).to.deep.equal({
-				"portfolio_id": 1,
-				"course_id": 1,
-				"instructor": {
-					"id": 1,
-					"linkblue_username": "user"
-				},
-				"num_students": 5,
-				"outcomes": [
-					{
-						"artifacts": [
-							{
-								"id": 1,
-								"portfolio_slo_id": 1,
-								"index": 1,
-								"name": "_unset_",
-								"evaluations": [
-									{
-										"id": 1,
-										"artifact_id": 1,
-										"evaluation_index": 1,
-										"student_index": 1,
-										"evaluation": [],
-										"file": null
-									}
-								]
-							},
-							{
-								"id": 2,
-								"portfolio_slo_id": 1,
-								"index": 2,
-								"name": "_unset_",
-								"evaluations": [
-									{
-										"id": 6,
-										"artifact_id": 2,
-										"evaluation_index": 1,
-										"student_index": 1,
-										"evaluation": [],
-										"file": null
-									}
-								]
-							},
-							{
-								"id": 3,
-								"portfolio_slo_id": 1,
-								"index": 3,
-								"name": "_unset_",
-								"evaluations": [
-									{
-										"id": 11,
-										"artifact_id": 3,
-										"evaluation_index": 1,
-										"student_index": 1,
-										"evaluation": [],
-										"file": null
-									}
-								]
-							}
-						],
-						"id": 1,
-						"department_id": 1,
-						"index": 2,
-						"description": "Design, implement, and evaluate a computing-based solution to meet a given set of computing requirements in the context of the program's discipline.",
-						"metrics": [
-							{
-								"id": 1,
-								"slo_id": 1,
-								"index": 1,
-								"name": "Identify and interpret client needs and design constraints",
-								"exceeds": "n/a",
-								"meets": "n/a",
-								"partially": "n/a",
-								"not": "n/a"
-							}
-						]
-					}
-				],
-				"course": {
-					"department": "cs",
-					"number": 498,
-					"section": 1,
-					"semester": "fall",
-					"year": 2019
-				}
-			})
-		})
+            // Assert
+            expect(portfolio).to.deep.equal({
+                "portfolio_id": 1,
+                "course_id": 1,
+                "instructor": {
+                    "id": 1,
+                    "linkblue_username": "user"
+                },
+                "num_students": 5,
+                "outcomes": [
+                    {
+                        "artifacts": [
+                            {
+                                "id": 1,
+                                "portfolio_slo_id": 1,
+                                "index": 1,
+                                "name": "_unset_",
+                                "evaluations": [
+                                    {
+                                        "id": 1,
+                                        "artifact_id": 1,
+                                        "evaluation_index": 1,
+                                        "student_index": 1,
+                                        "evaluation": [],
+                                        "file": null
+                                    }
+                                ]
+                            },
+                            {
+                                "id": 2,
+                                "portfolio_slo_id": 1,
+                                "index": 2,
+                                "name": "_unset_",
+                                "evaluations": [
+                                    {
+                                        "id": 6,
+                                        "artifact_id": 2,
+                                        "evaluation_index": 1,
+                                        "student_index": 1,
+                                        "evaluation": [],
+                                        "file": null
+                                    }
+                                ]
+                            },
+                            {
+                                "id": 3,
+                                "portfolio_slo_id": 1,
+                                "index": 3,
+                                "name": "_unset_",
+                                "evaluations": [
+                                    {
+                                        "id": 11,
+                                        "artifact_id": 3,
+                                        "evaluation_index": 1,
+                                        "student_index": 1,
+                                        "evaluation": [],
+                                        "file": null
+                                    }
+                                ]
+                            }
+                        ],
+                        "id": 1,
+                        "department_id": 1,
+                        "index": 2,
+                        "description": "Design, implement, and evaluate a computing-based solution to meet a given set of computing requirements in the context of the program's discipline.",
+                        "metrics": [
+                            {
+                                "id": 1,
+                                "slo_id": 1,
+                                "index": 1,
+                                "name": "Identify and interpret client needs and design constraints",
+                                "exceeds": "n/a",
+                                "meets": "n/a",
+                                "partially": "n/a",
+                                "not": "n/a"
+                            }
+                        ]
+                    }
+                ],
+                "course": {
+                    "department": "cs",
+                    "number": 498,
+                    "section": 1,
+                    "semester": "fall",
+                    "year": 2019
+                }
+            })
+        })
 
     })
-    
+
     describe('new', () => {
         // this is ran after each unit test
-		afterEach(() => {
-			// this is needed to restore the CoursePortfolio model back to it's original state
-			// we don't want to break all future unit tests
-			sandbox.restore()
+        afterEach(() => {
+            // this is needed to restore the CoursePortfolio model back to it's original state
+            // we don't want to break all future unit tests
+            sandbox.restore()
         })
-        
+
         it('should error on non-existent course', async () => {
 
             const Course = require('../../../main/models/Course')
 
             const fake_course = {
-                department_id : 40, // this isn't a real dept
+                department_id: 40, // this isn't a real dept
                 course_number: 5000, // this isn't a real course number
                 instructor: 1, // these other values shouldn't matter
                 semester: 1,
@@ -250,10 +251,10 @@ describe('Lib - CoursePortfolio', () => {
 
             // This is our search query for courses
             sandbox.stub(Course, "query").returns({
-				where: sandbox.stub().returns({
-					where: sinon.stub().returns([])
-				})
-			})
+                where: sandbox.stub().returns({
+                    where: sinon.stub().returns([])
+                })
+            })
 
             await expect(course_portfolio.new(fake_course)).to.be.rejectedWith("No existing course for Dept 40, Course No. 5000");
         })
@@ -263,7 +264,7 @@ describe('Lib - CoursePortfolio', () => {
             const Portfolio = require('../../../main/models/CoursePortfolio')
 
             const real_course = {
-                department_id : 1, // this is a real dept
+                department_id: 1, // this is a real dept
                 course_number: 498, // this is a real course number
                 instructor: 1,
                 semester: 1,
@@ -273,11 +274,11 @@ describe('Lib - CoursePortfolio', () => {
                 section: 100
             }
             sandbox.stub(Portfolio, "query").returns({
-				where: sandbox.stub().returns({
-					where: sinon.stub().returns([])
+                where: sandbox.stub().returns({
+                    where: sinon.stub().returns([])
                 }),
                 insert: sandbox.stub().returns([real_course])
-			})
+            })
 
             const actual_output = await course_portfolio.new(real_course);
 

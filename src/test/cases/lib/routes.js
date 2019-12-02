@@ -9,6 +9,13 @@ const sandbox = sinon.createSandbox();
 
 describe('Lib - Portfolio Selection Screen', () => {
 
+    afterEach(async () => {
+        const portfolios = await course_router.getPortfolios()
+        portfolios.forEach(async (p) => {
+            await course_router.setReadOnly(p.id, false)
+        })
+    })
+
     // this function retrives portfolios
     it("should retrive and aggregate portfolios from database", async () => {
         //arrange
@@ -16,6 +23,7 @@ describe('Lib - Portfolio Selection Screen', () => {
         const expected_values = [{
             id: 1,
             department_id: 1,
+            readonly: false,
             number: 498,
             identifier: 'cs',
             name: '_unset_',
@@ -37,6 +45,7 @@ describe('Lib - Portfolio Selection Screen', () => {
         {
             id: 1,
             department_id: 1,
+            readonly: false,
             number: 498,
             identifier: 'cs',
             name: '_unset_',
@@ -58,6 +67,7 @@ describe('Lib - Portfolio Selection Screen', () => {
         {
             id: 1,
             department_id: 1,
+            readonly: false,
             number: 498,
             identifier: 'cs',
             name: '_unset_',
@@ -90,6 +100,7 @@ describe('Lib - Portfolio Selection Screen', () => {
         const input_values = [{
             id: 1,
             department_id: 1,
+            readonly: false,
             number: 498,
             identifier: 'cs',
             name: '_unset_',
@@ -110,6 +121,7 @@ describe('Lib - Portfolio Selection Screen', () => {
         }, {
             id: 1,
             department_id: 1,
+            readonly: false,
             number: 498,
             identifier: 'cs',
             name: '_unset_',
@@ -130,6 +142,7 @@ describe('Lib - Portfolio Selection Screen', () => {
         }, {
             id: 1,
             department_id: 1,
+            readonly: false,
             number: 498,
             identifier: 'cs',
             name: '_unset_',
@@ -153,6 +166,7 @@ describe('Lib - Portfolio Selection Screen', () => {
             old_portfolios: [{
                 id: 1,
                 department_id: 1,
+                readonly: false,
                 number: 498,
                 identifier: 'cs',
                 name: '_unset_',
@@ -173,6 +187,7 @@ describe('Lib - Portfolio Selection Screen', () => {
             }, {
                 id: 1,
                 department_id: 1,
+                readonly: false,
                 number: 498,
                 identifier: 'cs',
                 name: '_unset_',
@@ -194,6 +209,7 @@ describe('Lib - Portfolio Selection Screen', () => {
                 {
                     id: 1,
                     department_id: 1,
+                    readonly: false,
                     number: 498,
                     identifier: 'cs',
                     name: '_unset_',
@@ -213,9 +229,24 @@ describe('Lib - Portfolio Selection Screen', () => {
                     term_name: 'FALL'
                 }]
         }
+
         //act
         const actual_portfolios = course_router.sortPortfolios(input_values)
         //assert
         expect(actual_portfolios).to.deep.equal(expected_values)
+    })
+
+    it('should set the readonly value of the given portfolio id', async () => {
+        //arrange
+        //get portfolio
+        const portfolio = (await course_router.getPortfolios())[0]
+
+        //act
+        await course_router.setReadOnly(portfolio.id, true);
+
+        //arrange
+        const new_portfolio = (await course_router.getPortfolios())[0]
+        expect(new_portfolio.readonly).to.equal(true)
+
     })
 })
