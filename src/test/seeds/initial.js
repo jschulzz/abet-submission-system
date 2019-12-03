@@ -148,8 +148,29 @@ exports.seed = knex => Promise.resolve((async () => {
 			instructor_id: 1,
 			semester_term_id: 1,
 			num_students: 5,
-			section: 1,
+            section: 1,
+            readonly: false,
 			year: 2019
+        },
+        {
+			id: 2,
+			course_id: 1,
+			instructor_id: 1,
+			semester_term_id: 2,
+			num_students: 5,
+            section: 1,
+            readonly: false,
+			year: 2019
+        },
+        {
+			id: 3,
+			course_id: 1,
+			instructor_id: 1,
+			semester_term_id: 1,
+			num_students: 5,
+            section: 1,
+            readonly: false,
+			year: 2018
 		}
 	])
 	await knex('portfolio_slo').insert([
