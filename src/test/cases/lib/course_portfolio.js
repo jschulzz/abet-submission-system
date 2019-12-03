@@ -284,6 +284,192 @@ describe('Lib - CoursePortfolio', () => {
 
             await expect(actual_output).to.deep.equal([real_course]);
         })
-    })
+	})
+	
+	describe('Get Random Students', () =>{
+		
+		// this is ran after each unit test
+		afterEach(() => {
+			// this is needed to restore the CoursePortfolio model back to it's original state
+			// we don't want to break all future unit tests
+			sandbox.restore()
+			sinon.restore()
+		})
+		
+		it('No Students', async () =>{
+			// Arange
+			const input = []
+
+			// Act & Assert
+			await expect(course_portfolio.getRandomStudents(input)).to.be.rejectedWith(Error, 'The must be students.')
+		})
+
+		it('1 Student', async () =>{
+			// Arange
+			const input = [1]
+			const expected_output = [1]
+
+			// Act 
+			const actual_output = await course_portfolio.getRandomStudents(input)
+
+			// Assert
+			expect(actual_output).to.deep.equal(expected_output)
+		})
+
+		it('9 Students', async () =>{
+			// Arange
+			const input = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+			const expected_output = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+			// Act 
+			const actual_output = await course_portfolio.getRandomStudents(input)
+
+			// Assert
+			expect(actual_output).to.deep.equal(expected_output)
+		})
+
+		it('10 Students', async () =>{
+			// Arange
+			const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+			const expected_output = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+			// Act 
+			const actual_output = await course_portfolio.getRandomStudents(input)
+
+			// Assert
+			expect(actual_output).to.deep.equal(expected_output)
+		})
+
+		it('11 Students', async () =>{
+			// Arange
+			const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+			const expected_output = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11]
+			const stub = sinon.stub(Math, "random")
+			stub.onCall(0).returns(0)
+			stub.onCall(1).returns(0.1)
+			stub.onCall(2).returns(0.2)
+			stub.onCall(3).returns(0.3)
+			stub.onCall(4).returns(0.5)
+			stub.onCall(5).returns(0.6)
+			stub.onCall(6).returns(0.7)
+			stub.onCall(7).returns(0.8)
+			stub.onCall(8).returns(0.9)
+			stub.onCall(9).returns(0.99)
+
+			// Act 
+			const actual_output = await course_portfolio.getRandomStudents(input)
+
+			// Assert
+			expect(actual_output).to.deep.equal(expected_output)
+		})
+
+		it('49 Students', async () =>{
+			// Arange
+			const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
+						11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+						21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+						31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+						41, 42, 43, 44, 45, 46, 47, 48, 49]
+			const expected_output = [1, 2, 11, 12, 21, 22, 31, 32, 41, 42]
+			const stub = sinon.stub(Math, "random")
+			stub.onCall(0).returns(0)
+			stub.onCall(1).returns(0.03)
+			stub.onCall(2).returns(0.21)
+			stub.onCall(3).returns(0.23)
+			stub.onCall(4).returns(0.41)
+			stub.onCall(5).returns(0.43)
+			stub.onCall(6).returns(0.62)
+			stub.onCall(7).returns(0.64)
+			stub.onCall(8).returns(0.82)
+			stub.onCall(9).returns(0.84)
+
+			// Act 
+			const actual_output = await course_portfolio.getRandomStudents(input)
+
+			// Assert
+			expect(actual_output).to.deep.equal(expected_output)
+		})
+
+		it('54 Students', async () =>{
+			// Arange
+			const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
+						11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+						21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+						31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+						41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+						51, 52, 53, 54]
+			const expected_output = [1, 2, 12, 13, 23, 24, 34, 35, 45, 46]
+			const stub = sinon.stub(Math, "random")
+			stub.onCall(0).returns(0)
+			stub.onCall(1).returns(0.03)
+			stub.onCall(2).returns(0.21)
+			stub.onCall(3).returns(0.23)
+			stub.onCall(4).returns(0.41)
+			stub.onCall(5).returns(0.43)
+			stub.onCall(6).returns(0.62)
+			stub.onCall(7).returns(0.64)
+			stub.onCall(8).returns(0.82)
+			stub.onCall(9).returns(0.84)
+
+			// Act 
+			const actual_output = await course_portfolio.getRandomStudents(input)
+
+			// Assert
+			expect(actual_output).to.deep.equal(expected_output)
+		})
+
+		it('55 Students', async () =>{
+			// Arange
+			const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
+						11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+						21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+						31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+						41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+						51, 52, 53, 54, 55 ]
+			const expected_output = [1, 2, 12, 13, 23, 24, 35, 36, 46, 47, 55]
+			const stub = sinon.stub(Math, "random")
+			stub.onCall(0).returns(0)
+			stub.onCall(1).returns(0.03)
+			stub.onCall(2).returns(0.21)
+			stub.onCall(3).returns(0.23)
+			stub.onCall(4).returns(0.41)
+			stub.onCall(5).returns(0.43)
+			stub.onCall(6).returns(0.62)
+			stub.onCall(7).returns(0.64)
+			stub.onCall(8).returns(0.82)
+			stub.onCall(9).returns(0.84)
+			stub.onCall(10).returns(0.99)
+
+			// Act 
+			const actual_output = await course_portfolio.getRandomStudents(input)
+
+			// Assert
+			expect(actual_output).to.deep.equal(expected_output)
+		})
+
+		it('Repeat Indeces', async () =>{
+			// Arange
+			const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+			const expected_output = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11]
+			const stub = sinon.stub(Math, "random")
+			stub.onCall(0).returns(0)
+			stub.onCall(1).returns(0.1)
+			stub.onCall(2).returns(0.1)
+			stub.onCall(3).returns(0.2)
+			stub.onCall(4).returns(0.3)
+			stub.onCall(5).returns(0.5)
+			stub.onCall(6).returns(0.6)
+			stub.onCall(7).returns(0.7)
+			stub.onCall(8).returns(0.8)
+			stub.onCall(9).returns(0.9)
+			stub.onCall(10).returns(0.99)
+
+			// Act 
+			const actual_output = await course_portfolio.getRandomStudents(input)
+
+			// Assert
+			expect(actual_output).to.deep.equal(expected_output)
+		})
+	})
 
 })

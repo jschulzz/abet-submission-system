@@ -2,6 +2,7 @@ var express = require('express');
 var mustache = require('../common/mustache')
 var html = require('../common/html')
 var course_portfolio_lib = require('../lib/course_portfolio')
+var user_lib = require('../lib/users')
 var router = express.Router();
 
 const Department = require('../models/Department')
@@ -157,18 +158,35 @@ const course_new_page = async (res, department = false) => {
 
 /* GET course home page */
 router.route('/')
-    .get(html.auth_wrapper(async (req, res, next) => {
-        const portfolios = await getPortfolios();
-        const { current_portfolios, old_portfolios } = sortPortfolios(portfolios);
 
-        res.render('base_template', {
-            title: 'Course Portfolios',
-            body: mustache.render('course/index', {
-                current_portfolios,
-                old_portfolios
-            })
-        })
-    }))
+	.get(html.auth_wrapper(async (req, res, next) => {
+    const portfolios = await getPortfolios();
+    const { current_portfolios, old_portfolios } = sortPortfolios(portfolios);
+
+		res.render('base_template', {
+			title: 'Course Portfolios',
+			body: mustache.render('course/index', {
+        added: '', 
+        current_portfolios: current_portfolios, 
+        old_portfolios: old_portfolios})
+		})
+	}))
+	.post(html.auth_wrapper(async (req, res, next) => {
+		try{
+			var add_user = await user_lib.new(req.body.username)
+			res.render('base_template', {
+				title: 'Course Portfolios',
+				body: mustache.render('course/index', {added: 'Successfully Added'})
+			})
+		}
+		catch(error){
+			const error_message = 'Error: ' + error.message
+			res.render('base_template', {
+				title: 'Course Portfolios',
+				body: mustache.render('course/index', {added: error_message})
+			})
+		}
+	}))
 
 /* GET course page */
 router.route('/:id')
