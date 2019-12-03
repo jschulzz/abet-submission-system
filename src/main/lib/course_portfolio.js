@@ -74,3 +74,40 @@ module.exports.get = async (portfolio_id) => {
 
     return portfolio
 }
+
+module.exports.getRandomStudents = async (students) => {
+    var num_students = 0
+    // Decides on the number of students that should be chosen
+    if(students.length === 0){
+        throw new Error('The must be students.')
+    }
+    if(students.length <= 10){
+        return students
+    }
+    else if(Math.floor(0.2 * students.length) < 10){
+        num_students = 10
+    }
+    else{
+        num_students = Math.floor(0.2 * students.length)
+    }
+    // Creates arrays for the students picked and the indices that have been chosen
+    var random_students = []
+    var indices = []
+    var valid_index
+    // Randomly selects the students from the array
+    for(var i = 0; i < num_students; i++){
+        valid_index = false
+        while(!valid_index){
+            // Picks the index of the student to be selected
+            var index = Math.floor(Math.random() * students.length)
+            // Checks if the student has been picked before
+            if(indices.indexOf(index) === -1){
+                // Stores the index of the student and places the student in the randomly selected array
+                indices[i] = (index)
+                random_students[i] = (students[index])
+                valid_index = true
+            }
+        }
+    }
+    return random_students
+}
